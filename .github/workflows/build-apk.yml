@@ -13,7 +13,7 @@ jobs:
 
       - name: Extract Toy Shop Manager project
         run: |
-          unzip -o TOY_SHOP_MANAGER see_google_drive_backup_android_ready.zip
+         unzip -o TOY_SHOP_MANAGER_google_drive_backup_android_ready.zip
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
