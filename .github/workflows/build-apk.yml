@@ -39,7 +39,7 @@ jobs:
       - name: Install Zoya Baby World icon
         run: |
           unzip -o zoya_baby_world_icon_pack.zip -d icon_pack
-          cp -r icon_pack/res/. project/android/app/src/main/res/
+          cp -rf icon_pack/res/. project/android/app/src/main/res/
       
       - name: Sync Capacitor
         working-directory: project
