@@ -1,0 +1,54 @@
+name: Build Toy Shop Manager APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v4
+
+      - name: Extract Toy Shop Manager project
+        run: |
+          unzip -o TOY_SHOP_MANAGER_offline_android_ready.zip
+          ls -la project
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install dependencies
+        working-directory: project
+        run: npm ci
+
+      - name: Build application
+        working-directory: project
+        run: npm run build
+
+      - name: Create Android project
+        working-directory: project
+        run: npx cap add android
+
+      - name: Sync Capacitor
+        working-directory: project
+        run: npx cap sync android
+
+      - name: Build APK
+        working-directory: project/android
+        run: chmod +x gradlew && ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: TOY-SHOP-MANAGER-APK
+          path: project/android/app/build/outputs/apk/debug/app-debug.apk
